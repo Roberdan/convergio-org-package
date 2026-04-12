@@ -1,0 +1,27 @@
+[package]
+name = "convergio-org-package"
+description = "Org-as-package ecosystem: install, sandbox, sign, and delegate between org packages"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+convergio-types = { workspace = true }
+convergio-db = { workspace = true }
+convergio-security = { workspace = true }
+convergio-ipc = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+hmac = { workspace = true }
+sha2 = { workspace = true }
+base64 = { workspace = true }
+uuid = { workspace = true }
+toml = { workspace = true }
+axum = { workspace = true }
+rusqlite = { workspace = true }
+
+[dev-dependencies]
+convergio-db = { workspace = true }
