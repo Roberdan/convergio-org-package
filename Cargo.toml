@@ -25,7 +25,7 @@ tracing = "0.1"
 axum = { version = "0.7", features = ["ws", "multipart"] }
 rusqlite = { version = "0.32", features = ["bundled", "functions"] }
 uuid = { version = "1", features = ["v4"] }
-hmac = "0.12"
+hmac = "0.13"
 sha2 = "0.10"
 base64 = "0.22"
 toml = "0.8"
