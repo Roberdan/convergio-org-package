@@ -46,15 +46,47 @@ struct InstallBody {
     signing_secret: Option<String>,
 }
 
+/// Maximum manifest size (64 KiB) to prevent DoS via oversized payloads.
+const MAX_MANIFEST_SIZE: usize = 64 * 1024;
+
+/// Allowed source types for package installation.
+const ALLOWED_SOURCE_TYPES: &[&str] = &["local", "github", "registry"];
+
 async fn install_package(
     State(s): State<Arc<OrgPkgState>>,
     Json(body): Json<InstallBody>,
 ) -> Json<Value> {
+    // Validate source_type against whitelist.
+    if !ALLOWED_SOURCE_TYPES.contains(&body.source_type.as_str()) {
+        return Json(json!({"error": format!(
+            "invalid source_type '{}': must be one of: {}",
+            body.source_type,
+            ALLOWED_SOURCE_TYPES.join(", ")
+        )}));
+    }
+
+    // Validate source format for github type.
+    if body.source_type == "github" {
+        if let Err(e) = crate::installer::github_manifest_url(&body.source) {
+            return Json(json!({"error": e.to_string()}));
+        }
+    }
+
     // Parse manifest
     let manifest_str = match &body.manifest_toml {
         Some(m) => m.clone(),
         None => return Json(json!({"error": "manifest_toml required for install"})),
     };
+
+    // Enforce manifest size limit.
+    if manifest_str.len() > MAX_MANIFEST_SIZE {
+        return Json(json!({"error": format!(
+            "manifest_toml exceeds maximum size ({} bytes, limit {})",
+            manifest_str.len(),
+            MAX_MANIFEST_SIZE
+        )}));
+    }
+
     let manifest = match crate::manifest::parse_manifest(&manifest_str) {
         Ok(m) => m,
         Err(e) => return Json(json!({"error": format!("invalid manifest: {e}")})),
