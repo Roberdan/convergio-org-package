@@ -164,6 +164,50 @@ fn validate(m: &OrgManifest) -> Result<(), ManifestError> {
     if m.package.author.is_empty() {
         return Err(ManifestError::MissingField("package.author".into()));
     }
+    validate_network_allowlist(&m.permissions.network_allowlist)?;
+    Ok(())
+}
+
+/// Reject network allowlist entries pointing to private/loopback ranges (SSRF prevention).
+fn validate_network_allowlist(entries: &[String]) -> Result<(), ManifestError> {
+    const BLOCKED_PREFIXES: &[&str] = &[
+        "127.",
+        "10.",
+        "192.168.",
+        "172.16.",
+        "172.17.",
+        "172.18.",
+        "172.19.",
+        "172.20.",
+        "172.21.",
+        "172.22.",
+        "172.23.",
+        "172.24.",
+        "172.25.",
+        "172.26.",
+        "172.27.",
+        "172.28.",
+        "172.29.",
+        "172.30.",
+        "172.31.",
+        "0.",
+        "169.254.",
+        "::1",
+        "fc00:",
+        "fd00:",
+        "fe80:",
+        "localhost",
+    ];
+    for entry in entries {
+        let lower = entry.to_lowercase();
+        for prefix in BLOCKED_PREFIXES {
+            if lower.starts_with(prefix) || lower.contains(&format!("://{prefix}")) {
+                return Err(ManifestError::InvalidName(format!(
+                    "network_allowlist entry '{entry}' targets a private/loopback address"
+                )));
+            }
+        }
+    }
     Ok(())
 }
 

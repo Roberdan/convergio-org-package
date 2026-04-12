@@ -53,6 +53,13 @@ pub fn install_from_local(
     signature: Option<&str>,
     signing_secret: Option<&[u8]>,
 ) -> Result<(OrgManifest, InstallResult), InstallError> {
+    // Reject path traversal sequences.
+    if dir_path.contains("..") {
+        return Err(InstallError::Io(
+            "path traversal detected: '..' not allowed in dir_path".into(),
+        ));
+    }
+
     // Parse and validate manifest.
     let manifest = parse_manifest(manifest_content)?;
 
@@ -170,5 +177,18 @@ author = "ACME Corp"
     fn different_version_allowed() {
         let installed = vec![("acme-legal".into(), "1.0.0".into())];
         check_not_installed(&installed, "acme-legal", "2.0.0").unwrap();
+    }
+
+    #[test]
+    fn path_traversal_rejected() {
+        let err =
+            install_from_local("../../../etc/passwd", VALID_MANIFEST, None, None).unwrap_err();
+        assert!(err.to_string().contains("path traversal"));
+    }
+
+    #[test]
+    fn path_traversal_mid_path_rejected() {
+        let err = install_from_local("/safe/../secret", VALID_MANIFEST, None, None).unwrap_err();
+        assert!(err.to_string().contains("path traversal"));
     }
 }

@@ -43,6 +43,10 @@ crate = "convergio-security"
 allow = ["LicenseRef-Convergio-Community"]
 crate = "convergio-ipc"
 
+[[licenses.exceptions]]
+allow = ["LicenseRef-Convergio-Community"]
+crate = "convergio-telemetry"
+
 [bans]
 multiple-versions = "warn"
 wildcards = "allow"

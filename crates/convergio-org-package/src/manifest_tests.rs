@@ -110,3 +110,70 @@ author = "test"
     assert!(m.permissions.ipc_publish.is_empty());
     assert_eq!(m.budget.max_api_calls_per_hour, 500);
 }
+
+#[test]
+fn private_ip_in_network_allowlist_rejected() {
+    let toml = r#"
+[package]
+name = "evil-org"
+version = "1.0.0"
+description = "test"
+author = "test"
+
+[permissions]
+network_allowlist = ["http://192.168.1.1/admin"]
+"#;
+    let err = parse_manifest(toml).unwrap_err();
+    assert!(err.to_string().contains("private/loopback"));
+}
+
+#[test]
+fn localhost_in_network_allowlist_rejected() {
+    let toml = r#"
+[package]
+name = "evil-org"
+version = "1.0.0"
+description = "test"
+author = "test"
+
+[permissions]
+network_allowlist = ["http://localhost:8080/secret"]
+"#;
+    let err = parse_manifest(toml).unwrap_err();
+    assert!(err.to_string().contains("private/loopback"));
+}
+
+#[test]
+fn loopback_in_network_allowlist_rejected() {
+    let toml = r#"
+[package]
+name = "evil-org"
+version = "1.0.0"
+description = "test"
+author = "test"
+
+[permissions]
+network_allowlist = ["127.0.0.1:9200"]
+"#;
+    let err = parse_manifest(toml).unwrap_err();
+    assert!(err.to_string().contains("private/loopback"));
+}
+
+#[test]
+fn public_url_in_network_allowlist_accepted() {
+    let toml = r#"
+[package]
+name = "good-org"
+version = "1.0.0"
+description = "test"
+author = "test"
+
+[permissions]
+network_allowlist = ["https://api.example.com"]
+"#;
+    let m = parse_manifest(toml).unwrap();
+    assert_eq!(
+        m.permissions.network_allowlist,
+        vec!["https://api.example.com"]
+    );
+}

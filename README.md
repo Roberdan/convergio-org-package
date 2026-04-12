@@ -5,7 +5,7 @@
 [![Rust](https://img.shields.io/badge/rust-stable-orange)](https://www.rust-lang.org/)
 [![Zero Warnings](https://img.shields.io/badge/warnings-0-brightgreen)](#)
 
-CRATE_DESCRIPTION
+Org-as-package ecosystem: install, sandbox, sign, and delegate between org packages. Each org is isolated with DB prefix, route prefix, IPC channel prefix, and budget hardcap enforcement.
 
 Part of the [Convergio](https://github.com/Roberdan/convergio) ecosystem.
 
