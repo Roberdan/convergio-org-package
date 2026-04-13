@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.2](https://github.com/Roberdan/convergio-org-package/compare/v0.1.1...v0.1.2) (2026-04-13)
+
+
+### Bug Fixes
+
+* bump hmac to 0.13 and sha2 to 0.11 with API compat update ([2e32264](https://github.com/Roberdan/convergio-org-package/commit/2e32264a1921c468791fed92730f18c2cb6d44de))
+* **release:** use vX.Y.Z tag format (remove component) ([53b397c](https://github.com/Roberdan/convergio-org-package/commit/53b397cb41176e430b35d4db27dc24fa25845f86))
+* **security:** audit improvements — input validation, SSRF prevention, path traversal ([#5](https://github.com/Roberdan/convergio-org-package/issues/5)) ([894ab3d](https://github.com/Roberdan/convergio-org-package/commit/894ab3d38f6dd36fb37dacf371621b2549d64af3))
+
 ## [0.1.1](https://github.com/Roberdan/convergio-org-package/compare/convergio-org-package-v0.1.0...convergio-org-package-v0.1.1) (2026-04-12)
 
 
