@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/Roberdan/convergio-org-package/compare/v0.1.3...v0.1.4) (2026-04-13)
+
+
+### Bug Fixes
+
+* pass CARGO_REGISTRY_TOKEN to release workflow ([c46b12d](https://github.com/Roberdan/convergio-org-package/commit/c46b12d20c9e7e773e3aa8d72c1b24ae9d5d18a3))
+
 ## [0.1.3](https://github.com/Roberdan/convergio-org-package/compare/v0.1.2...v0.1.3) (2026-04-13)
 
 
