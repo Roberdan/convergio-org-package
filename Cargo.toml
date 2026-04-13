@@ -3,14 +3,13 @@ resolver = "2"
 members = ["crates/convergio-org-package"]
 
 [workspace.package]
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/Roberdan/convergio-org-package"
 
 [workspace.dependencies]
 # SDK dependencies
-convergio-sdk = { git = "https://github.com/Roberdan/convergio-sdk", tag = "v0.1.9" }
 convergio-types = "0.1"
 convergio-db = "0.1"
 convergio-security = "0.1"
