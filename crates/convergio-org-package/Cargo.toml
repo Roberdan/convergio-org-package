@@ -4,6 +4,7 @@ description = "Org-as-package ecosystem: install, sandbox, sign, and delegate be
 version = "0.1.2"
 edition.workspace = true
 license.workspace = true
+repository = "https://github.com/Roberdan/convergio-org-package"
 
 [dependencies]
 convergio-types = { workspace = true }
