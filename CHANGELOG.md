@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/Roberdan/convergio-org-package/compare/v0.1.2...v0.1.3) (2026-04-13)
+
+
+### Bug Fixes
+
+* add crates.io publishing metadata (description, repository) ([e5234f3](https://github.com/Roberdan/convergio-org-package/commit/e5234f39a44a939e3dc6ec0b39bdeab01902f90a))
+
 ## [0.1.2](https://github.com/Roberdan/convergio-org-package/compare/v0.1.1...v0.1.2) (2026-04-13)
 
 
