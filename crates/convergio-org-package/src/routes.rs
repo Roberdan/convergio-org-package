@@ -176,8 +176,16 @@ async fn list_packages(State(s): State<Arc<OrgPkgState>>) -> Json<Value> {
             "installed_at": r.get::<_, Option<String>>(7)?,
         }))
     }) {
-        Ok(rows) => rows.filter_map(|r| r.ok()).collect(),
-        Err(_) => vec![],
+        Ok(rows) => rows
+            .filter_map(|r| {
+                r.map_err(|e| tracing::warn!("skipping malformed package row: {e}"))
+                    .ok()
+            })
+            .collect(),
+        Err(e) => {
+            tracing::warn!("failed to query org_packages: {e}");
+            vec![]
+        }
     };
     Json(json!({"packages": rows}))
 }
@@ -233,6 +241,13 @@ struct ValidateBody {
 }
 
 async fn validate_manifest(Json(body): Json<ValidateBody>) -> Json<Value> {
+    if body.manifest_toml.len() > MAX_MANIFEST_SIZE {
+        return Json(json!({"valid": false, "error": format!(
+            "manifest_toml exceeds maximum size ({} bytes, limit {})",
+            body.manifest_toml.len(),
+            MAX_MANIFEST_SIZE
+        )}));
+    }
     match crate::manifest::parse_manifest(&body.manifest_toml) {
         Ok(m) => Json(json!({
             "valid": true,
