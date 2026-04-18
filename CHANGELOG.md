@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/Roberdan/convergio-org-package/compare/v0.1.4...v0.1.5) (2026-04-18)
+
+
+### Bug Fixes
+
+* security and quality audit pass 2 ([22344c2](https://github.com/Roberdan/convergio-org-package/commit/22344c2670ba2392a8c291f888bf0453765334a4))
+* security audit pass  size limit on validate, error logging, dead dep2 ([0ba22bc](https://github.com/Roberdan/convergio-org-package/commit/0ba22bc44c63233e1be06233e2160cfd1417d079))
+
 ## [0.1.4](https://github.com/Roberdan/convergio-org-package/compare/v0.1.3...v0.1.4) (2026-04-13)
 
 
